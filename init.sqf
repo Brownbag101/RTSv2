@@ -1,0 +1,1 @@
+[] execVM "OpsRoom\init.sqf";
