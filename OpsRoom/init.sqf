@@ -87,6 +87,11 @@ call compile preprocessFileLineNumbers "OpsRoom\data\locationTypes.sqf";
 [] call OpsRoom_fnc_initSeaLanes;
 systemChat "Sea lanes initialized";
 
+// Initialize Cargo Logistics system
+[] call OpsRoom_fnc_initCargo;
+[] call OpsRoom_fnc_cargoDraw3D;
+systemChat "Cargo logistics initialized";
+
 // Initialize Air Operations hangar
 [] call OpsRoom_fnc_initHangar;
 [] call OpsRoom_fnc_airDraw3D;

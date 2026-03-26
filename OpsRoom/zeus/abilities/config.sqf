@@ -193,6 +193,24 @@ OpsRoom_AbilityConfig set ["airStrike", createHashMapFromArray [
     ["action", {call OpsRoom_fnc_ability_airStrike}]
 ]];
 
+// ==================== CARGO LOGISTICS ====================
+
+OpsRoom_AbilityConfig set ["cargo", createHashMapFromArray [
+    ["name", "Cargo"],
+    ["icon", "a3\ui_f\data\igui\cfg\simpleTasks\types\use_ca.paa"],
+    ["tooltip", "Load/unload cargo items"],
+    ["condition", {
+        params ["_units"];
+        // Single vehicle selection only, must be a registered cargo carrier
+        if (count _units != 1) exitWith {false};
+        private _unit = _units select 0;
+        if (_unit isKindOf "Man") exitWith {false};
+        private _vehType = typeOf _unit;
+        OpsRoom_CargoCarriers getOrDefault [_vehType, -1] > 0
+    }],
+    ["action", {call OpsRoom_fnc_openCargoMenu}]
+]];
+
 // ==================== CAMERA ABILITIES ====================
 
 OpsRoom_AbilityConfig set ["followCamera", createHashMapFromArray [

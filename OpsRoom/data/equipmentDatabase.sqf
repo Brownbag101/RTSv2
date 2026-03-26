@@ -121,7 +121,7 @@ OpsRoom_EquipmentDB set ["303_ammo", createHashMapFromArray [
     
     ["supplyDesc", "Box of 10 magazines of .303 ammunition."],
     ["spawnType", "crate"],
-    ["crateClass", "CUP_BOX_GB_Wps_F"]
+    ["crateClass", "JMSSA_Brit_ammo_box"]
 ]];
 
 // ============================================================
@@ -175,7 +175,9 @@ OpsRoom_EquipmentDB set ["willys_jeep", createHashMapFromArray [
     
     ["supplyDesc", "One Willys Jeep, ready for deployment."],
     ["spawnType", "vehicle"],
-    ["crateClass", ""]
+    ["crateClass", ""],
+    ["cargoCarrier", true],
+    ["cargoSlots", 2]
 ]];
 
 
@@ -526,7 +528,9 @@ OpsRoom_EquipmentDB set ["c47_transport", createHashMapFromArray [
     
     ["supplyDesc", "One Douglas C-47 Skytrain (RAF), ready for transport operations."],
     ["spawnType", "vehicle"],
-    ["crateClass", ""]
+    ["crateClass", ""],
+    ["cargoCarrier", true],
+    ["cargoSlots", 12]
 ]];
 
 // ============================================================
@@ -553,7 +557,9 @@ OpsRoom_EquipmentDB set ["bedford_mw_ammo", createHashMapFromArray [
     
     ["supplyDesc", "One Bedford MW ammo truck, ready for logistics operations."],
     ["spawnType", "vehicle"],
-    ["crateClass", ""]
+    ["crateClass", ""],
+    ["cargoCarrier", true],
+    ["cargoSlots", 8]
 ]];
 
 // ============================================================
@@ -765,6 +771,33 @@ OpsRoom_EquipmentDB set ["cargo_ship", createHashMapFromArray [
     ["buildDesc", "Emergency wartime construction. Welded hull for speed of assembly. One vessel per production cycle."],
     
     ["supplyDesc", "One Liberty Ship, added to convoy fleet pool."],
+    ["crateClass", ""]
+]];
+
+// ============================================================
+// TECHNOLOGY > AIRBORNE
+// ============================================================
+
+OpsRoom_EquipmentDB set ["paradrop_capability", createHashMapFromArray [
+    ["displayName", "Paradrop Capability"],
+    ["category", "Technology"],
+    ["subcategory", "Airborne"],
+    ["className", ""],
+    ["imagePath", ""],
+    
+    ["researchCost", 40],
+    ["researchTime", 5],
+    ["researchTier", 2],
+    ["researchPrereqs", ["c47_transport"]],
+    ["researchDesc", "Parachute supply drop technology. Enables cargo dropped from transport aircraft to deploy parachutes, preventing damage on landing. Without this research, air-dropped supplies will free-fall."],
+    
+    ["buildTime", 0],
+    ["buildCost", []],
+    ["batchSize", 0],
+    ["buildDesc", ""],
+    
+    ["supplyDesc", ""],
+    ["spawnType", "none"],
     ["crateClass", ""]
 ]];
 

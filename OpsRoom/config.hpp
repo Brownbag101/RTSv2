@@ -306,6 +306,18 @@ class CfgFunctions {
             class autoServiceMonitor {};
             class aircraftStatusMonitor {};
         };
+        class Cargo {
+            file = "OpsRoom\gui\cargo";
+            class initCargo {};
+            class openCargoMenu {};
+            class loadCargo {};
+            class unloadCargo {};
+            class getCargoCapacity {};
+            class updateCargoDisplay {};
+            class cargoDraw3D {};
+            class loadAllCargo {};
+            class unloadAllCargo {};
+        };
         class Debug {
             file = "OpsRoom\debug";
             class spawnTestAirCrew {};

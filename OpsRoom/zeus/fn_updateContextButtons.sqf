@@ -29,13 +29,14 @@ if (count _abilities == 0) exitWith {
     diag_log "[OpsRoom] No abilities available for current selection";
 };
 
-// Button layout configuration
+// Button layout configuration — match standard buttons exactly
 private _buttonSize = 0.035 * safezoneH;
 private _padding = 0.005 * safezoneW;
 
-// Position abilities on RIGHT side of toolbar
-private _startX = safezoneX + safezoneW - (_buttonSize * (count _abilities)) - (_padding * (count _abilities + 1));
-private _yPos = safezoneY + safezoneH - _buttonSize - (0.05 * safezoneH);
+// Position abilities on RIGHT side of toolbar, aligned with standard buttons
+// Same Y as standard buttons: centered in the 0.08-tall bottom bar
+private _yPos = safezoneY + safezoneH - (0.08 * safezoneH) + (0.0225 * safezoneH);
+private _startX = safezoneX + safezoneW - (_padding) - ((count _abilities) * (_buttonSize + _padding));
 
 // Create button for each ability
 {

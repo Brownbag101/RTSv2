@@ -23,6 +23,8 @@ private _selected = curatorSelected select 0;
 
 if (count _selected == 0) exitWith {
     _unitInfoCtrl ctrlSetStructuredText parseText "<t align='center' size='1.1' color='#999999'>NO UNIT SELECTED</t>";
+    // Clean up cargo icons when nothing selected
+    [objNull] call OpsRoom_fnc_updateCargoDisplay;
 };
 
 // Get first selected unit
@@ -124,6 +126,9 @@ if (count _selected > 1) then {
     ];
     
     _unitInfoCtrl ctrlSetStructuredText parseText _text;
+    
+    // Group selected - clean up any cargo icons
+    [objNull] call OpsRoom_fnc_updateCargoDisplay;
     
 } else {
     // Single unit selected - show detailed info
@@ -260,18 +265,36 @@ if (count _selected > 1) then {
         
         _unitInfoCtrl ctrlSetStructuredText parseText _text;
         
+        // Infantry selected — clean up any cargo icons
+        [objNull] call OpsRoom_fnc_updateCargoDisplay;
+        
     } else {
         // Non-infantry unit - show basic info
         private _unitName = getText (configFile >> "CfgVehicles" >> typeOf _unit >> "displayName");
         if (_unitName == "") then {_unitName = typeOf _unit};
         
+        // Check if this is a cargo carrier
+        private _cargoInfo = "";
+        if (!isNil "OpsRoom_CargoCarriers") then {
+            private _cap = [_unit] call OpsRoom_fnc_getCargoCapacity;
+            _cap params ["_usedCargo", "_maxCargo", "_isCarrier"];
+            if (_isCarrier) then {
+                private _cargoColor = if (_usedCargo >= _maxCargo) then {"#FF6600"} else {"#8BC34A"};
+                _cargoInfo = format ["  |  CARGO: <t color='%1'>%2/%3</t>", _cargoColor, _usedCargo, _maxCargo];
+            };
+        };
+        
         private _text = format [
-            "<t align='center' size='1.0'>%1</t><br/><t align='center' size='0.9' color='#AAAAAA'>%2  |  HEALTH: <t color='%3'>%4%%</t></t>",
+            "<t align='center' size='1.0'>%1</t><br/><t align='center' size='0.9' color='#AAAAAA'>%2  |  HEALTH: <t color='%3'>%4%%</t>%5</t>",
             _unitName,
             _unitType,
             _healthColor,
-            round _health
+            round _health,
+            _cargoInfo
         ];
         _unitInfoCtrl ctrlSetStructuredText parseText _text;
+        
+        // Update clickable cargo icons on Zeus display
+        [_unit] call OpsRoom_fnc_updateCargoDisplay;
     };
 };

@@ -188,6 +188,22 @@ OpsRoom_Settings_PilotSkill = 3;
 // Auto-service interval (seconds between auto-repair/rearm/refuel checks)
 OpsRoom_Settings_AutoServiceInterval = 30;
 
+// ========================================
+// CARGO LOGISTICS SETTINGS
+// ========================================
+
+// Seconds to load one cargo item onto a vehicle
+OpsRoom_Settings_CargoLoadTime = 4;
+
+// Seconds to unload one cargo item from a vehicle
+OpsRoom_Settings_CargoUnloadTime = 3;
+
+// Radius (metres) to scan for loadable items near vehicle
+OpsRoom_Settings_CargoScanRadius = 25;
+
+// Default cargo slot weight for items not specified in equipment DB
+OpsRoom_Settings_CargoDefaultWeight = 1;
+
 // Editor markers (place these in your mission):
 //   OpsRoom_hangar   - Hangar position (preview spawn + camera)
 //   OpsRoom_runway   - Runway position (launch spawn + LAND waypoint)

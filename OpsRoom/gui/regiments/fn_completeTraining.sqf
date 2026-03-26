@@ -73,6 +73,64 @@ if (isNull _unit) exitWith {};
             _unit setVariable ["OpsRoom_Ability_Assassinate", true, true];
             diag_log format ["[OpsRoom] Granted Assassinate ability: %1", name _unit];
         };
+        case "paratrooper": {
+            _unit setVariable ["OpsRoom_Ability_Paratrooper", true, true];
+            
+            // Store qualification
+            private _quals2 = _unit getVariable ["OpsRoom_Qualifications", []];
+            if !("paratrooper" in _quals2) then { _quals2 pushBack "paratrooper" };
+            _unit setVariable ["OpsRoom_Qualifications", _quals2, true];
+            
+            // Apply para uniform and kit after training completes
+            [_unit] spawn {
+                params ["_u"];
+                sleep 1;
+                
+                // Store name before uniform change (FOW overwrites names)
+                private _savedName = name _u;
+                
+                // Apply Paratrooper loadout
+                removeAllWeapons _u;
+                removeAllItems _u;
+                removeAllAssignedItems _u;
+                removeUniform _u;
+                removeVest _u;
+                removeBackpack _u;
+                removeHeadgear _u;
+                removeGoggles _u;
+                
+                _u addWeapon "fow_w_leeenfield_no4mk1";
+                _u addPrimaryWeaponItem "fow_10Rnd_303";
+                
+                _u forceAddUniform "UK_Uniform_PARA_6thAB_Pte";
+                _u addVest "fow_v_uk_para_base_green";
+                _u addBackpack "fow_b_uk_p37_blanco";
+                
+                _u addItemToUniform "FirstAidKit";
+                for "_i" from 1 to 4 do {_u addItemToUniform "fow_10Rnd_303";};
+                for "_i" from 1 to 2 do {_u addItemToUniform "fow_e_no36mk1";};
+                for "_i" from 1 to 2 do {_u addItemToUniform "SmokeShell";};
+                
+                _u addHeadgear "fow_h_uk_mk2_para_camo";
+                
+                _u linkItem "ItemMap";
+                _u linkItem "ItemCompass";
+                _u linkItem "ItemWatch";
+                _u linkItem "ItemRadio";
+                
+                // Re-apply name after delay (FOW overwrites)
+                sleep 0.5;
+                _u setName _savedName;
+                
+                ["PRIORITY", format ["%1 qualified as paratrooper", _savedName],
+                    format ["%1 has completed airborne training and is now jump-qualified.", _savedName]
+                ] call OpsRoom_fnc_dispatch;
+                
+                diag_log format ["[OpsRoom] Paratrooper %1 kitted out", _savedName];
+            };
+            
+            diag_log format ["[OpsRoom] Granted Paratrooper qualification: %1", name _unit];
+        };
         case "airStrike": {
             _unit setVariable ["OpsRoom_Ability_AirStrike", true, true];
             diag_log format ["[OpsRoom] Granted Air Strike ability: %1", name _unit];

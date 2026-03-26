@@ -27,6 +27,7 @@ private _unitsByParentGroup = createHashMap;
     if (!isNil {_unit getVariable "OpsRoom_ParentGroup"}) then {continue};
     if (!isNil {_originalGroup getVariable "OpsRoom_IsSubTeam"}) then {continue};
     if (_unit getVariable ["OpsRoom_IsPilot", false]) then {continue};
+    if (_unit getVariable ["OpsRoom_IsCargoLoaded", false]) then {continue};
     
     // Group by parent group
     private _grpID = str _originalGroup;

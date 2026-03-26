@@ -193,6 +193,17 @@ OpsRoom_TrainingCourses = [
         ["pilot"]
     ],
     [
+        "paratrooper",
+        "Paratrooper Training",
+        "Airborne forces qualification. Jump training, parachute packing, and air-landing operations. Qualifies unit to perform combat drops from transport aircraft.",
+        60,
+        [
+            ["courage", 0.3],
+            ["general", 0.2]
+        ],
+        ["paratrooper"]
+    ],
+    [
         "air_gunner",
         "Air Gunner Training",
         "Aerial gunnery and observer course. Trains personnel to operate turret-mounted weapons aboard multi-crew aircraft. Qualifies unit as aircrew for bombers and multi-seat fighters.",
