@@ -135,6 +135,13 @@ class CfgFunctions {
             // Assassinate
             class cancelAssassinateTargeting {};
             class executeAssassinate {};
+            // Build system
+            class startBuildPlacement {};
+            class startLinePlacement {};
+            class cancelBuildPlacement {};
+            class executeBuild {};
+            class executeLineBuild {};
+            class executeDemolish {};
             // Air Strike
             class airStrike_getAvailable {};
             class airStrike_hasWeaponType {};
@@ -170,6 +177,7 @@ class CfgFunctions {
             class ability_infiltrate {};
             class ability_assassinate {};
             class ability_airStrike {};
+            class ability_build {};
         };
         class Supply {
             file = "OpsRoom\gui\supply";
@@ -235,6 +243,12 @@ class CfgFunctions {
             class openOpsMapPicker {};
             class showIntelCard {};
             class setLocationData {};
+            class initCommandIntel {};          // Command Intelligence system init
+            class getCommandIntelLevel {};      // Get effective intel level
+            class commandIntelMonitor {};       // Background intel decay/update loop
+            class locationDraw3D {};            // Location name/progress/radius Draw3D
+            class initLocationBuildings {};     // Bind buildings to locations
+            class toggleLocationBuildings {};   // Add/remove buildings from Zeus on capture
         };
         class Storehouse {
             file = "OpsRoom\gui\storehouse";
@@ -332,6 +346,21 @@ class CfgFunctions {
             class create3DMarker {};
             class remove3DMarker {};
             class createMissionIntro {};
+        };
+        class AI {
+            file = "OpsRoom\ai";
+            class aiCommanderMonitor {};
+            class aiFindSpawnLocation {};
+            class aiSpawnGroup {};
+            class aiMoveGroup {};
+            class initLocationRadios {};
+            class radioAlarmMonitor {};
+            class radioCallback {};
+            class aiDraw3D {};
+            class aiManpowerMonitor {};
+            class aiSpawnAirGroup {};       // Enemy aircraft spawner
+            class aiSpawnNavalGroup {};     // Enemy patrol boat spawner
+            class aiMapMarkers {};          // Intel-gated map markers for AI groups
         };
     };
 };

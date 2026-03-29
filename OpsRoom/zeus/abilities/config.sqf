@@ -193,6 +193,21 @@ OpsRoom_AbilityConfig set ["airStrike", createHashMapFromArray [
     ["action", {call OpsRoom_fnc_ability_airStrike}]
 ]];
 
+// ==================== ENGINEERING ====================
+
+OpsRoom_AbilityConfig set ["build", createHashMapFromArray [
+    ["name", "Build"],
+    ["icon", "a3\ui_f\data\igui\cfg\actions\repair_ca.paa"],
+    ["tooltip", "Construct fortifications, defences, and minefields"],
+    ["condition", {
+        params ["_units"];
+        _units findIf {
+            _x getVariable ["OpsRoom_Ability_Build", false]
+        } != -1
+    }],
+    ["action", {call OpsRoom_fnc_ability_build}]
+]];
+
 // ==================== CARGO LOGISTICS ====================
 
 OpsRoom_AbilityConfig set ["cargo", createHashMapFromArray [

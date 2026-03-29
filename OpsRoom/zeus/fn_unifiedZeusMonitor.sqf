@@ -118,6 +118,9 @@ while {true} do {
     // ========================================
     
     if (_frameCounter % 5 == 0 && count _selected > 0) then {
+        // Filter to friendly units only — never detach enemy units
+        private _friendlySelected = _selected select {side group _x == side player};
+        
         // Group selected units by their groups
         private _groupHash = createHashMap;
         {
@@ -133,7 +136,7 @@ while {true} do {
             private _arr = _data select 1;
             _arr pushBack _unit;
             
-        } forEach _selected;
+        } forEach _friendlySelected;
         
         // Check each group for auto-detach only
         {

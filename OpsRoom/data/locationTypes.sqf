@@ -23,6 +23,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", "Equipment"],
         ["captureRadius", 200],
         ["captureTime", 300],
+        ["buildingCount", 5],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -35,6 +36,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", "Supply Routes"],
         ["captureRadius", 250],
         ["captureTime", 480],
+        ["buildingCount", 5],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -47,6 +49,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", "Manpower"],
         ["captureRadius", 300],
         ["captureTime", 300],
+        ["buildingCount", 6],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -59,6 +62,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", "Air Support"],
         ["captureRadius", 300],
         ["captureTime", 480],
+        ["buildingCount", 6],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -71,6 +75,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", ""],
         ["captureRadius", 150],
         ["captureTime", 180],
+        ["buildingCount", 3],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -83,6 +88,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", ""],
         ["captureRadius", 100],
         ["captureTime", 180],
+        ["buildingCount", 2],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -95,6 +101,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", ""],
         ["captureRadius", 100],
         ["captureTime", 120],
+        ["buildingCount", 1],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -107,6 +114,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", ""],
         ["captureRadius", 100],
         ["captureTime", 120],
+        ["buildingCount", 2],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -119,6 +127,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", "Logistics"],
         ["captureRadius", 150],
         ["captureTime", 300],
+        ["buildingCount", 4],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -131,6 +140,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", "Equipment"],
         ["captureRadius", 50],
         ["captureTime", 120],
+        ["buildingCount", 3],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_supply.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -143,6 +153,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", "Manpower"],
         ["captureRadius", 200],
         ["captureTime", 300],
+        ["buildingCount", 4],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -155,6 +166,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", ""],
         ["captureRadius", 80],
         ["captureTime", 120],
+        ["buildingCount", 2],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_art.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -167,6 +179,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", ""],
         ["captureRadius", 100],
         ["captureTime", 180],
+        ["buildingCount", 2],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -179,6 +192,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", "Fuel"],
         ["captureRadius", 150],
         ["captureTime", 240],
+        ["buildingCount", 3],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_supply.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -191,6 +205,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", "Ammunition"],
         ["captureRadius", 120],
         ["captureTime", 180],
+        ["buildingCount", 3],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_supply.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -203,6 +218,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", "Command"],
         ["captureRadius", 100],
         ["captureTime", 480],
+        ["buildingCount", 2],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -215,6 +231,59 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", "Supply Routes"],
         ["captureRadius", 200],
         ["captureTime", 300],
+        ["buildingCount", 0],
+        ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
+        ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
+        ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
+    ]],
+    ["motorpool", createHashMapFromArray [
+        ["displayName", "Motor Pool"],
+        ["category", "Military"],
+        ["description", "Vehicle depot and maintenance facility. Enemy forces stage mechanised units here."],
+        ["taskTypes", ["Capture", "Destroy", "Reconnoitre", "Raid"]],
+        ["produces", ""],
+        ["captureRadius", 150],
+        ["captureTime", 240],
+        ["buildingCount", 3],
+        ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
+        ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_motor_inf.paa"],
+        ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
+    ]],
+    ["village", createHashMapFromArray [
+        ["displayName", "Village"],
+        ["category", "Settlement"],
+        ["description", "Small rural settlement with light enemy presence"],
+        ["taskTypes", ["Capture", "Reconnoitre", "Patrol", "Liberate"]],
+        ["produces", "Manpower"],
+        ["captureRadius", 150],
+        ["captureTime", 180],
+        ["buildingCount", 2],
+        ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
+        ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
+        ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
+    ]],
+    ["observation_post", createHashMapFromArray [
+        ["displayName", "Observation Post"],
+        ["category", "Military"],
+        ["description", "Hilltop lookout position providing early warning and reconnaissance"],
+        ["taskTypes", ["Capture", "Destroy", "Reconnoitre"]],
+        ["produces", ""],
+        ["captureRadius", 75],
+        ["captureTime", 90],
+        ["buildingCount", 1],
+        ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
+        ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_recon.paa"],
+        ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
+    ]],
+    ["checkpoint", createHashMapFromArray [
+        ["displayName", "Checkpoint"],
+        ["category", "Infrastructure"],
+        ["description", "Roadblock and security checkpoint controlling movement along a route"],
+        ["taskTypes", ["Capture", "Destroy", "Ambush", "Reconnoitre"]],
+        ["produces", ""],
+        ["captureRadius", 50],
+        ["captureTime", 60],
+        ["buildingCount", 1],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]
@@ -227,6 +296,7 @@ OpsRoom_LocationTypes = createHashMapFromArray [
         ["produces", "Command"],
         ["captureRadius", 200],
         ["captureTime", 480],
+        ["buildingCount", 4],
         ["iconUnknown", "\A3\ui_f\data\map\markers\military\unknown_ca.paa"],
         ["iconKnown", "\A3\ui_f\data\map\markers\nato\n_installation.paa"],
         ["iconDestroyed", "\A3\ui_f\data\map\markers\military\destroy_ca.paa"]

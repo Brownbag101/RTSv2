@@ -19,10 +19,12 @@ private _unitsByParentGroup = createHashMap;
     private _groupLeader = leader _originalGroup;
     
     // Don't detach if:
+    // - Unit is not on player's side (never detach enemies)
     // - Unit is alone in group
     // - Unit already detached
     // - The group itself is marked as a sub-team
     // - Unit is a pilot (they live at the airfield independently)
+    if (side group _unit != side player) then {continue};
     if (count units _originalGroup <= 1) then {continue};
     if (!isNil {_unit getVariable "OpsRoom_ParentGroup"}) then {continue};
     if (!isNil {_originalGroup getVariable "OpsRoom_IsSubTeam"}) then {continue};

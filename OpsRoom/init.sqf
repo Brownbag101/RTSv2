@@ -76,9 +76,19 @@ if (isNil "OpsRoom_ShipmentQueue") then { OpsRoom_ShipmentQueue = [] };
 
 systemChat "Equipment database loaded";
 
+// Load buildable objects database
+call compile preprocessFileLineNumbers "OpsRoom\data\buildables.sqf";
+
 // Load location types and initialize strategic locations
 call compile preprocessFileLineNumbers "OpsRoom\data\locationTypes.sqf";
 [] call OpsRoom_fnc_initStrategicLocations;
+
+// Load AI Commander configuration
+call compile preprocessFileLineNumbers "OpsRoom\data\aiCommander.sqf";
+systemChat "AI Commander config loaded";
+
+// Initialize location buildings (bind map buildings to locations)
+[] call OpsRoom_fnc_initLocationBuildings;
 
 // Initialize storehouses
 [] call OpsRoom_fnc_initStorehouses;
@@ -113,6 +123,9 @@ if (isNil "OpsRoom_OperationNextID") then { OpsRoom_OperationNextID = 1 };
 
 // Start intel monitor loop
 [] spawn OpsRoom_fnc_intelMonitor;
+
+// Start location Draw3D (name labels, capture bars, radius circles)
+[] call OpsRoom_fnc_locationDraw3D;
 
 // Start capture monitor loop
 [] spawn OpsRoom_fnc_captureMonitor;
@@ -188,6 +201,26 @@ if (OpsRoom_Settings_AutoHideZeusUI) then {
 
 // Initialize standard buttons (left side)
 [] spawn OpsRoom_fnc_createStandardButtons;
+
+// ========================================
+// AI COMMANDER SYSTEM
+// ========================================
+
+// Initialize Command Intelligence (must be before AI monitors)
+[] call OpsRoom_fnc_initCommandIntel;
+systemChat "Command Intelligence initialized";
+
+// Spawn radios at enemy locations
+[] call OpsRoom_fnc_initLocationRadios;
+
+// Start AI Commander monitors
+[] spawn OpsRoom_fnc_aiCommanderMonitor;
+[] spawn OpsRoom_fnc_radioAlarmMonitor;
+[] spawn OpsRoom_fnc_aiManpowerMonitor;
+[] spawn OpsRoom_fnc_commandIntelMonitor;
+[] spawn OpsRoom_fnc_aiMapMarkers;
+[] call OpsRoom_fnc_aiDraw3D;
+systemChat "AI Commander initialized";
 
 systemChat "✓ Operations Room system ready";
 

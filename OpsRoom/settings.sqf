@@ -204,6 +204,34 @@ OpsRoom_Settings_CargoScanRadius = 25;
 // Default cargo slot weight for items not specified in equipment DB
 OpsRoom_Settings_CargoDefaultWeight = 1;
 
+// ========================================
+// BUILDING REPAIR SETTINGS
+// ========================================
+
+// Resources consumed per 10% repair step
+OpsRoom_Settings_RepairCostSteel = 1;
+OpsRoom_Settings_RepairCostWood = 1;
+
+// Seconds per 10% repair step
+OpsRoom_Settings_RepairTimePerStep = 5;
+
+// ========================================
+// BUILD SYSTEM SETTINGS
+// ========================================
+
+// Demolish returns this fraction of original cost (0.5 = 50%)
+OpsRoom_Settings_DemolishRefundRate = 0.5;
+
+// ========================================
+// AI COMMANDER SETTINGS
+// ========================================
+
+// Enable/disable the AI commander system
+OpsRoom_Settings_AICommander_Enabled = true;
+
+// Starting enemy manpower (overrides aiCommander.sqf default)
+// OpsRoom_Settings_AI_StartingManpower = 100;
+
 // Editor markers (place these in your mission):
 //   OpsRoom_hangar   - Hangar position (preview spawn + camera)
 //   OpsRoom_runway   - Runway position (launch spawn + LAND waypoint)

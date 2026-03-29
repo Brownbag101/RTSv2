@@ -215,6 +215,17 @@ OpsRoom_TrainingCourses = [
             ["courage", 0.3]
         ],
         ["airCrew"]
+    ],
+    [
+        "royal_engineers",
+        "Royal Engineers Training",
+        "Field engineering, fortification construction, and demolition. Qualifies unit to build defensive structures, lay minefields, and demolish player-built objects. Also grants Repair ability.",
+        60,
+        [
+            ["general", 0.2],
+            ["courage", 0.2]
+        ],
+        ["build", "repair"]
     ]
 ];
 

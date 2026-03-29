@@ -160,12 +160,23 @@ while {OpsRoom_CaptureMonitorRunning} do {
             if (_newOwner == "BRITISH") then {
                 _locData set ["status", "friendly"];
                 
+                // Set intel to 100% on capture — full knowledge of captured location
+                _locData set ["intelPercent", 100];
+                _locData set ["intelTier", 5];
+                _locData set ["discovered", true];
+                
+                // Make buildings Zeus-editable
+                [_locId, "add"] call OpsRoom_fnc_toggleLocationBuildings;
+                
                 // PRIORITY dispatch — location secured
                 ["PRIORITY", "LOCATION SECURED", format ["%1 has been captured by British forces!", _name], _pos] call OpsRoom_fnc_dispatch;
                 
                 diag_log format ["[OpsRoom] CAPTURED: %1 is now BRITISH (was %2)", _name, _oldOwner];
             } else {
                 _locData set ["status", "enemy"];
+                
+                // Remove buildings from Zeus — enemy territory
+                [_locId, "remove"] call OpsRoom_fnc_toggleLocationBuildings;
                 
                 // FLASH dispatch — location lost
                 ["FLASH", "LOCATION LOST", format ["%1 has fallen to the enemy!", _name], _pos] call OpsRoom_fnc_dispatch;

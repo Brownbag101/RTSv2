@@ -77,6 +77,58 @@ class OpsRoom_OpsMapDialog {
             action = "closeDialog 0;";
         };
         
+        // Command Intelligence button
+        class IntelButton: RscButton {
+            idc = 11504;
+            text = "INTELLIGENCE";
+            x = 0.18 * safezoneW + safezoneX;
+            y = 0.055 * safezoneH + safezoneY;
+            w = 0.07 * safezoneW;
+            h = 0.03 * safezoneH;
+            colorBackground[] = COLOR_BUTTON;
+            colorBackgroundActive[] = COLOR_BUTTON_ACTIVE;
+            colorFocused[] = COLOR_BUTTON_ACTIVE;
+            sizeEx = 0.025;
+            action = "";  // Set in code
+        };
+        
+        // Command Intelligence side panel (hidden by default)
+        class IntelPanelBg: RscBackground {
+            idc = 11510;
+            x = 0.72 * safezoneW + safezoneX;
+            y = 0.09 * safezoneH + safezoneY;
+            w = 0.23 * safezoneW;
+            h = 0.82 * safezoneH;
+            colorBackground[] = {0.08, 0.09, 0.06, 0.92};
+        };
+        
+        class IntelPanelTitle: RscText {
+            idc = 11511;
+            text = "COMMAND INTELLIGENCE";
+            x = 0.73 * safezoneW + safezoneX;
+            y = 0.10 * safezoneH + safezoneY;
+            w = 0.21 * safezoneW;
+            h = 0.03 * safezoneH;
+            colorText[] = COLOR_TEXT;
+            sizeEx = 0.035;
+            font = "PuristaBold";
+        };
+        
+        class IntelPanelBody: RscStructuredText {
+            idc = 11512;
+            x = 0.73 * safezoneW + safezoneX;
+            y = 0.14 * safezoneH + safezoneY;
+            w = 0.21 * safezoneW;
+            h = 0.75 * safezoneH;
+            size = 0.028;
+            text = "";
+            class Attributes {
+                font = "PuristaLight";
+                color = "#D9D5C9";
+                shadow = 1;
+            };
+        };
+        
         // Interactive map control
         class MapControl: RscMapControl {
             idc = 11500;

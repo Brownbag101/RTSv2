@@ -123,8 +123,13 @@ while {true} do {
             sleep 0.5;
         };
         
-        // Arrived at destination — delete ship and crew
+        // Arrived at destination — notify AI manpower system, then delete
         if (alive _ship) then {
+            // Increment enemy ship arrival counter (feeds AI manpower monitor)
+            if (isNil "OpsRoom_EnemyShipsArrived") then { OpsRoom_EnemyShipsArrived = 0 };
+            OpsRoom_EnemyShipsArrived = OpsRoom_EnemyShipsArrived + 1;
+            diag_log format ["[OpsRoom] Enemy ship arrived at port. Total arrivals: %1", OpsRoom_EnemyShipsArrived];
+            
             private _allCrew = crew _ship;
             { deleteVehicle _x } forEach _allCrew;
             deleteVehicle _ship;

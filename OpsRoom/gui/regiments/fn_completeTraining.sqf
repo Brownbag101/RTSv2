@@ -135,6 +135,10 @@ if (isNull _unit) exitWith {};
             _unit setVariable ["OpsRoom_Ability_AirStrike", true, true];
             diag_log format ["[OpsRoom] Granted Air Strike ability: %1", name _unit];
         };
+        case "build": {
+            _unit setVariable ["OpsRoom_Ability_Build", true, true];
+            diag_log format ["[OpsRoom] Granted Build ability: %1", name _unit];
+        };
         case "pilot": {
             // Store pilot qualification on unit
             private _quals2 = _unit getVariable ["OpsRoom_Qualifications", []];

@@ -36,6 +36,39 @@ if !(_type in OpsRoom_DispatchTypes) then {
     _type = "ROUTINE";
 };
 
+// ========================================
+// COMMAND INTELLIGENCE GATE
+// ========================================
+// Enemy AI commander dispatches are filtered by intel level.
+// Titles starting with "ENEMY" are AI commander messages.
+// Other dispatches (player actions, training, etc.) always pass through.
+private _isEnemyIntel = (_title select [0, 5]) == "ENEMY" || _title == "RADIOMAN DOWN" || _title == "RADIO DESTROYED" || _title == "TRANSMISSION STOPPED" || _title == "ENEMY RADIO ACTIVE" || _title == "ENEMY REINFORCEMENTS INCOMING" || _title == "ENEMY REINFORCEMENTS DISPATCHED" || _title == "ENEMY RESUPPLY" || _title == "ENEMY RESPONSE DELAYED";
+
+if (_isEnemyIntel && !isNil "OpsRoom_AI_IntelLevel") then {
+    private _intel = OpsRoom_AI_IntelLevel;
+    
+    // Below 30%: suppress all enemy intel dispatches (log only)
+    if (_intel < 30) exitWith {
+        diag_log format ["[OpsRoom] Dispatch SUPPRESSED (intel %1%%): [%2] %3 - %4", round _intel, _type, _title, _body];
+        ""
+    };
+    
+    // 30-59%: downgrade to vague messages, suppress detail
+    if (_intel < 60) then {
+        // Replace specific info with vague intelligence
+        _body = switch (true) do {
+            case (_title find "COUNTER" >= 0): { "Reports suggest enemy forces are massing for a counter-attack. Target unknown." };
+            case (_title find "REINFORCE" >= 0): { "Signals indicate enemy reinforcements are on the move. Strength and destination unclear." };
+            case (_title find "GARRISON" >= 0): { "Enemy troop movements detected. Possibly repositioning forces." };
+            case (_title find "RADIO" >= 0): { _body };  // Radio events pass through (player can see them)
+            case (_title find "RESUPPLY" >= 0): { "Increased enemy shipping activity detected." };
+            default { "Unconfirmed reports of enemy activity." };
+        };
+        _type = "ROUTINE";  // Downgrade urgency
+    };
+    // 60%+: full detail passes through as-is
+};
+
 // Generate ID
 private _id = format ["dispatch_%1", OpsRoom_DispatchNextID];
 OpsRoom_DispatchNextID = OpsRoom_DispatchNextID + 1;

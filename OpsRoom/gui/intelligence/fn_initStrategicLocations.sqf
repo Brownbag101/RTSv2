@@ -47,6 +47,19 @@ private _foundCount = 0;
             private _type = _parts select 1;
             private _number = _parts select 2;
             
+            // Alias mapping for multi-word types (marker can't have extra underscores)
+            // Mission maker uses: opsroom_observationpost_1 → maps to "observation_post"
+            // Mission maker uses: opsroom_gunemplacement_1 → maps to "gun_emplacement"
+            // Mission maker uses: opsroom_fueldepot_1 → maps to "fuel_depot"
+            // Mission maker uses: opsroom_ammodump_1 → maps to "ammo_dump"
+            private _typeAliases = createHashMapFromArray [
+                ["observationpost", "observation_post"],
+                ["gunemplacement", "gun_emplacement"],
+                ["fueldepot", "fuel_depot"],
+                ["ammodump", "ammo_dump"]
+            ];
+            _type = _typeAliases getOrDefault [_type, _type];
+            
             // Check if this type exists in our definitions
             if (_type in OpsRoom_LocationTypes) then {
                 

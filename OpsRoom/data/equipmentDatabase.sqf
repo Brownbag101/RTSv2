@@ -802,6 +802,102 @@ OpsRoom_EquipmentDB set ["paradrop_capability", createHashMapFromArray [
 ]];
 
 // ============================================================
+// TECHNOLOGY > SIGNALS INTELLIGENCE (Bletchley Park)
+// ============================================================
+
+OpsRoom_EquipmentDB set ["sigint_radio_intercepts", createHashMapFromArray [
+    ["displayName", "Radio Intercepts"],
+    ["category", "Technology"],
+    ["subcategory", "Signals Intelligence"],
+    ["className", ""],
+    ["imagePath", ""],
+    
+    ["researchCost", 40],
+    ["researchTime", 5],
+    ["researchTier", 1],
+    ["researchPrereqs", []],
+    ["researchDesc", "Establish radio intercept stations to monitor enemy wireless traffic. Y-stations triangulate transmissions and log frequencies. Provides basic intelligence on enemy command structure and troop movements. +15% Command Intelligence."],
+    
+    ["buildTime", 0],
+    ["buildCost", []],
+    ["batchSize", 0],
+    ["buildDesc", ""],
+    
+    ["supplyDesc", ""],
+    ["spawnType", "none"],
+    ["crateClass", ""]
+]];
+
+OpsRoom_EquipmentDB set ["sigint_enigma_analysis", createHashMapFromArray [
+    ["displayName", "Enigma Analysis"],
+    ["category", "Technology"],
+    ["subcategory", "Signals Intelligence"],
+    ["className", ""],
+    ["imagePath", ""],
+    
+    ["researchCost", 80],
+    ["researchTime", 8],
+    ["researchTier", 2],
+    ["researchPrereqs", ["sigint_radio_intercepts"]],
+    ["researchDesc", "Bletchley Park cryptanalysts begin work on enemy Enigma machine ciphers. Bombes — electromechanical decryption devices — test key combinations at speed. Partial decrypts reveal enemy unit destinations and order of battle. +25% Command Intelligence."],
+    
+    ["buildTime", 0],
+    ["buildCost", []],
+    ["batchSize", 0],
+    ["buildDesc", ""],
+    
+    ["supplyDesc", ""],
+    ["spawnType", "none"],
+    ["crateClass", ""]
+]];
+
+OpsRoom_EquipmentDB set ["sigint_ultra_decrypts", createHashMapFromArray [
+    ["displayName", "Ultra Decrypts"],
+    ["category", "Technology"],
+    ["subcategory", "Signals Intelligence"],
+    ["className", ""],
+    ["imagePath", ""],
+    
+    ["researchCost", 120],
+    ["researchTime", 12],
+    ["researchTier", 3],
+    ["researchPrereqs", ["sigint_enigma_analysis"]],
+    ["researchDesc", "Full Enigma decryption capability achieved. Ultra-classified intelligence provides real-time access to enemy high command communications. Every enemy order, deployment, and strategic decision is intercepted and decoded. +35% Command Intelligence."],
+    
+    ["buildTime", 0],
+    ["buildCost", []],
+    ["batchSize", 0],
+    ["buildDesc", ""],
+    
+    ["supplyDesc", ""],
+    ["spawnType", "none"],
+    ["crateClass", ""]
+]];
+
+OpsRoom_EquipmentDB set ["sigint_strategic_deception", createHashMapFromArray [
+    ["displayName", "Strategic Deception"],
+    ["category", "Technology"],
+    ["subcategory", "Signals Intelligence"],
+    ["className", ""],
+    ["imagePath", ""],
+    
+    ["researchCost", 160],
+    ["researchTime", 15],
+    ["researchTier", 4],
+    ["researchPrereqs", ["sigint_ultra_decrypts"]],
+    ["researchDesc", "Double Cross system operational. Turned agents feed false intelligence back to enemy command. XX Committee controls the enemy's entire spy network in Britain. Enables future counter-intelligence operations and can delay enemy AI commander turns. +25% Command Intelligence."],
+    
+    ["buildTime", 0],
+    ["buildCost", []],
+    ["batchSize", 0],
+    ["buildDesc", ""],
+    
+    ["supplyDesc", ""],
+    ["spawnType", "none"],
+    ["crateClass", ""]
+]];
+
+// ============================================================
 // HELPER FUNCTIONS
 // ============================================================
 

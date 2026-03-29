@@ -40,6 +40,140 @@ if (!isNull _legendBtn) then {
     }];
 };
 
+// ========================================
+// COMMAND INTELLIGENCE PANEL
+// ========================================
+// Hide panel by default
+private _intelPanelBg = _display displayCtrl 11510;
+private _intelPanelTitle = _display displayCtrl 11511;
+private _intelPanelBody = _display displayCtrl 11512;
+
+_intelPanelBg ctrlShow false;
+_intelPanelTitle ctrlShow false;
+_intelPanelBody ctrlShow false;
+
+// Intelligence button toggles the panel
+private _intelBtn = _display displayCtrl 11504;
+if (!isNull _intelBtn) then {
+    _intelBtn ctrlAddEventHandler ["ButtonClick", {
+        private _display = findDisplay 8010;
+        private _bg = _display displayCtrl 11510;
+        private _title = _display displayCtrl 11511;
+        private _body = _display displayCtrl 11512;
+        private _map = _display displayCtrl 11500;
+        
+        private _visible = ctrlShown _bg;
+        
+        if (_visible) then {
+            // Hide panel, restore full map width
+            _bg ctrlShow false;
+            _title ctrlShow false;
+            _body ctrlShow false;
+            _map ctrlSetPosition [
+                0.05 * safezoneW + safezoneX,
+                0.09 * safezoneH + safezoneY,
+                0.90 * safezoneW,
+                0.82 * safezoneH
+            ];
+            _map ctrlCommit 0.2;
+        } else {
+            // Show panel, shrink map
+            _bg ctrlShow true;
+            _title ctrlShow true;
+            _body ctrlShow true;
+            _map ctrlSetPosition [
+                0.05 * safezoneW + safezoneX,
+                0.09 * safezoneH + safezoneY,
+                0.67 * safezoneW,
+                0.82 * safezoneH
+            ];
+            _map ctrlCommit 0.2;
+            
+            // Populate intel panel
+            private _intel = if (!isNil "OpsRoom_AI_IntelLevel") then { [] call OpsRoom_fnc_getCommandIntelLevel } else { 0 };
+            private _base = if (!isNil "OpsRoom_AI_IntelBase") then { OpsRoom_AI_IntelBase } else { 10 };
+            private _research = if (!isNil "OpsRoom_AI_IntelResearchBonus") then { OpsRoom_AI_IntelResearchBonus } else { 0 };
+            private _temp = if (!isNil "OpsRoom_AI_IntelTempBonus") then { OpsRoom_AI_IntelTempBonus } else { 0 };
+            private _spy = if (!isNil "OpsRoom_AI_SpyIntelBonus") then { OpsRoom_AI_SpyIntelBonus } else { 0 };
+            
+            // Intel level colour
+            private _intelColor = if (_intel >= 80) then { "#66FF66" } else {
+                if (_intel >= 60) then { "#FFFF44" } else {
+                    if (_intel >= 30) then { "#FF8844" } else { "#FF4444" }
+                }
+            };
+            
+            // Rating text
+            private _ratingText = if (_intel >= 80) then { "EXCELLENT" } else {
+                if (_intel >= 60) then { "GOOD" } else {
+                    if (_intel >= 30) then { "PARTIAL" } else { "MINIMAL" }
+                }
+            };
+            
+            // Build breakdown text
+            private _text = format [
+                "<t size='1.3' color='%1'>%2%%</t><br/>" +
+                "<t size='0.9' color='%1'>%3</t><br/><br/>" +
+                "<t size='1.0' color='#D9D5C9'>SOURCES</t><br/>" +
+                "<t size='0.9'>Frontline Observation: %4%%</t><br/>" +
+                "<t size='0.9'>Signals Intelligence: %5%%</t><br/>" +
+                "<t size='0.9'>Field Intelligence: %6%%</t><br/>" +
+                "<t size='0.9'>Spy Network: %7%%</t><br/><br/>",
+                _intelColor, round _intel, _ratingText,
+                round _base, round _research, round _temp, round _spy
+            ];
+            
+            // Visibility breakdown
+            _text = _text + "<t size='1.0' color='#D9D5C9'>VISIBILITY</t><br/>";
+            _text = _text + format ["<t size='0.9'>Enemy Dispatches: %1</t><br/>",
+                if (_intel >= 60) then { "<t color='#66FF66'>FULL</t>" } else {
+                    if (_intel >= 30) then { "<t color='#FFFF44'>VAGUE</t>" } else { "<t color='#FF4444'>NONE</t>" }
+                }
+            ];
+            _text = _text + format ["<t size='0.9'>Troop Markers: %1</t><br/>",
+                if (_intel >= 80) then { "<t color='#66FF66'>FULL DETAIL</t>" } else {
+                    if (_intel >= 50) then { "<t color='#FFFF44'>NEARBY ONLY</t>" } else { "<t color='#FF4444'>NONE</t>" }
+                }
+            ];
+            _text = _text + format ["<t size='0.9'>Map Movements: %1</t><br/>",
+                if (_intel >= 80) then { "<t color='#66FF66'>ROUTES SHOWN</t>" } else {
+                    if (_intel >= 60) then { "<t color='#FFFF44'>POSITIONS ONLY</t>" } else { "<t color='#FF4444'>NONE</t>" }
+                }
+            ];
+            _text = _text + format ["<t size='0.9'>Manpower Estimate: %1</t><br/><br/>",
+                if (_intel >= 100) then { "<t color='#66FF66'>EXACT</t>" } else {
+                    if (_intel >= 80) then { "<t color='#FFFF44'>ESTIMATED</t>" } else { "<t color='#FF4444'>UNKNOWN</t>" }
+                }
+            ];
+            
+            // Manpower display if available
+            if (_intel >= 80 && !isNil "OpsRoom_AI_Manpower") then {
+                private _mp = OpsRoom_AI_Manpower;
+                if (_intel >= 100) then {
+                    _text = _text + format ["<t size='1.0' color='#D9D5C9'>ENEMY MANPOWER</t><br/><t size='1.2' color='#FF6644'>%1</t><br/><br/>", _mp];
+                } else {
+                    private _fuzz = (_mp * 0.2) max 5;
+                    _text = _text + format ["<t size='1.0' color='#D9D5C9'>EST. ENEMY MANPOWER</t><br/><t size='1.2' color='#FF6644'>%1 - %2</t><br/><br/>", round ((_mp - _fuzz) max 0), round (_mp + _fuzz)];
+                };
+            };
+            
+            // Tips
+            _text = _text + "<t size='1.0' color='#D9D5C9'>HOW TO IMPROVE</t><br/>";
+            _text = _text + "<t size='0.85'>- Capture enemy locations (+5%%)</t><br/>";
+            _text = _text + "<t size='0.85'>- Capture intact radios (+3%%)</t><br/>";
+            _text = _text + "<t size='0.85'>- Research Signals Intelligence</t><br/>";
+            _text = _text + "<t size='0.85'>- Deploy spies (coming soon)</t><br/>";
+            
+            // Active groups count at max intel
+            if (_intel >= 80 && !isNil "OpsRoom_AI_ActiveGroups") then {
+                _text = _text + format ["<br/><t size='1.0' color='#D9D5C9'>ENEMY ACTIVE GROUPS</t><br/><t size='1.2' color='#FF6644'>%1</t>", count OpsRoom_AI_ActiveGroups];
+            };
+            
+            _body ctrlSetStructuredText parseText _text;
+        };
+    }];
+};
+
 // Get the map control
 private _mapCtrl = _display displayCtrl 11500;
 
