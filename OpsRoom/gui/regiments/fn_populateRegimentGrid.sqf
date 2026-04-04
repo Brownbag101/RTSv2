@@ -90,17 +90,33 @@ private _maxSquares = 12;
         ];
         _nameCtrl ctrlCommit 0;
         
-        // Add unit count (very bottom)
+        // Add regiment type label (below name)
+        private _regType = _regimentData getOrDefault ["type", "regular"];
+        private _typeData = OpsRoom_RegimentTypes getOrDefault [_regType, createHashMap];
+        private _typeLabel = if (count _typeData > 0) then { _typeData get "displayName" } else { "Infantry" };
+        
+        // Colour-code by type
+        private _typeColor = switch (_regType) do {
+            case "commando": { "#66CC66" };
+            case "airborne": { "#6699CC" };
+            case "soe": { "#CC9966" };
+            case "sas": { "#CC6666" };
+            case "armoured": { "#CCCC66" };
+            case "pioneer": { "#99CCCC" };
+            default { "#AAAAAA" };
+        };
+        
+        // Add unit count + type (very bottom)
         private _countCtrl = _display ctrlCreate ["RscStructuredText", _idc + 3000];
         _countCtrl ctrlSetPosition [
             (ctrlPosition _ctrl) select 0,
-            ((ctrlPosition _ctrl) select 1) + ((ctrlPosition _ctrl) select 3) * 0.82,
+            ((ctrlPosition _ctrl) select 1) + ((ctrlPosition _ctrl) select 3) * 0.78,
             (ctrlPosition _ctrl) select 2,
-            ((ctrlPosition _ctrl) select 3) * 0.18
+            ((ctrlPosition _ctrl) select 3) * 0.22
         ];
         _countCtrl ctrlSetStructuredText parseText format [
-            "<t align='center' size='0.7' color='#AAAAAA'>%1 personnel</t>", 
-            _totalUnits
+            "<t align='center' size='0.65' color='%1'>%2</t><br/><t align='center' size='0.6' color='#AAAAAA'>%3 personnel</t>", 
+            _typeColor, _typeLabel, _totalUnits
         ];
         _countCtrl ctrlCommit 0;
         

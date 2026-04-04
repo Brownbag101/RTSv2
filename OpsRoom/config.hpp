@@ -51,6 +51,7 @@ class CfgFunctions {
             class showRecruitDetails {};  // Show recruit details
             class processRecruitment {};  // Process enlistment
             class openGroupSelectForRecruit {};  // Group selection for recruit
+            class applyRegimentLoadout {};  // Apply type-specific loadout
             class spawnRecruit {};  // Spawn and assign recruit
             class openTraining {};  // Open training dialog
             class populateTrainingList {};  // Populate training courses
@@ -157,6 +158,11 @@ class CfgFunctions {
             class airStrike_torpedoRun {};
             class airStrike_cleanup {};
             class airStrike_returnToLoiter {};
+            // Artillery
+            class artillery_getAvailable {};
+            class startArtilleryTargeting {};
+            class cancelArtilleryTargeting {};
+            class executeArtillery {};
         };
         class ZeusAbilities {
             file = "OpsRoom\zeus\abilities";
@@ -177,6 +183,8 @@ class CfgFunctions {
             class ability_infiltrate {};
             class ability_assassinate {};
             class ability_airStrike {};
+            class ability_artillery {};
+            class ability_artillery_roundMenu {};
             class ability_build {};
         };
         class Supply {

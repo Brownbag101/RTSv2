@@ -496,6 +496,17 @@ if (_tabIndex == 2) then {
     if (_unit getVariable ["OpsRoom_Ability_Heal", false]) then { _quals pushBack "Field Medic" };
     if (_unit getVariable ["OpsRoom_Ability_Repair", false]) then { _quals pushBack "Combat Engineer" };
     if (_unit getVariable ["OpsRoom_Ability_Grenade", false]) then { _quals pushBack "Grenadier" };
+    if (_unit getVariable ["OpsRoom_Ability_Build", false]) then { _quals pushBack "Royal Engineers" };
+    if (_unit getVariable ["OpsRoom_Ability_AirStrike", false]) then { _quals pushBack "Forward Air Controller" };
+    
+    // Special qualifications from OpsRoom_Qualifications array
+    private _unitQuals = _unit getVariable ["OpsRoom_Qualifications", []];
+    if ("commando" in _unitQuals) then { _quals pushBack "Commando" };
+    if ("paratrooper" in _unitQuals) then { _quals pushBack "Paratrooper" };
+    if ("sas" in _unitQuals) then { _quals pushBack "SAS Operative" };
+    if ("soe" in _unitQuals) then { _quals pushBack "SOE Agent" };
+    if ("pilot" in _unitQuals) then { _quals pushBack "RAF Pilot" };
+    if ("airCrew" in _unitQuals) then { _quals pushBack "Air Gunner" };
     
     private _completedCourses = _unit getVariable ["OpsRoom_CompletedCourses", []];
     {

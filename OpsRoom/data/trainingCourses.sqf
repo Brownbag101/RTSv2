@@ -3,9 +3,20 @@
     
     Defines all available training courses, durations, and skill bonuses.
     Duration in minutes (in-game time).
+    
+    Format per course:
+        [courseId, displayName, description, durationMins, skillBonuses, qualifications, prereqQuals, minCourage]
+    
+    prereqQuals: array of qualification strings the unit must already have (empty = no prereqs)
+                 If multiple listed, unit needs ANY ONE of them (OR logic)
+    minCourage:  minimum courage skill value required (0.0 = no gate, 1.0 = max)
+    requiresResearch: research item ID that must be completed ("" = always available)
 */
 
 OpsRoom_TrainingCourses = [
+    // ========================================
+    // BASIC & GENERAL COURSES
+    // ========================================
     [
         "basic",
         "Basic Training",
@@ -22,7 +33,10 @@ OpsRoom_TrainingCourses = [
             ["commanding", 0.2],
             ["general", 0.2]
         ],
-        []  // No special qualifications
+        [],  // No special qualifications
+        [],  // No prereqs
+        0,   // No courage gate
+        ""   // No research required
     ],
     [
         "marksmanship",
@@ -34,7 +48,10 @@ OpsRoom_TrainingCourses = [
             ["aimingSpeed", 0.3],
             ["aimingShake", 0.3]
         ],
-        ["marksmanShot"]  // Grants Aimed Shot ability
+        ["marksmanShot"],
+        [],
+        0,
+        ""
     ],
     [
         "leadership",
@@ -45,7 +62,10 @@ OpsRoom_TrainingCourses = [
             ["commanding", 0.4],
             ["courage", 0.4]
         ],
-        []
+        [],
+        [],
+        0,
+        ""
     ],
     [
         "tactical",
@@ -57,7 +77,10 @@ OpsRoom_TrainingCourses = [
             ["spotTime", 0.3],
             ["general", 0.3]
         ],
-        []
+        [],
+        [],
+        0,
+        ""
     ],
     [
         "medical",
@@ -67,7 +90,10 @@ OpsRoom_TrainingCourses = [
         [
             ["general", 0.2]
         ],
-        ["medic", "heal"]  // Medic qualification + Heal ability
+        ["medic", "heal"],
+        [],
+        0,
+        ""
     ],
     [
         "mg",
@@ -79,7 +105,10 @@ OpsRoom_TrainingCourses = [
             ["aimingShake", 0.2],
             ["courage", 0.2]
         ],
-        ["suppressiveFire"]  // Grants Suppress ability
+        ["suppressiveFire"],
+        [],
+        0,
+        ""
     ],
     [
         "engineering",
@@ -89,7 +118,10 @@ OpsRoom_TrainingCourses = [
         [
             ["general", 0.2]
         ],
-        ["engineer", "repair"]  // Engineer qualification + Repair ability
+        ["engineer", "repair"],
+        [],
+        0,
+        ""
     ],
     [
         "advanced_weapons",
@@ -100,7 +132,10 @@ OpsRoom_TrainingCourses = [
             ["reloadSpeed", 0.3],
             ["aimingAccuracy", 0.3]
         ],
-        []
+        [],
+        [],
+        0,
+        ""
     ],
     [
         "reconnaissance",
@@ -111,7 +146,10 @@ OpsRoom_TrainingCourses = [
             ["spotDistance", 0.4],
             ["spotTime", 0.4]
         ],
-        []
+        [],
+        [],
+        0,
+        ""
     ],
     [
         "cqb",
@@ -122,7 +160,10 @@ OpsRoom_TrainingCourses = [
             ["aimingSpeed", 0.3],
             ["general", 0.3]
         ],
-        []
+        [],
+        [],
+        0,
+        ""
     ],
     [
         "officer",
@@ -133,7 +174,10 @@ OpsRoom_TrainingCourses = [
             ["commanding", 0.5],
             ["general", 0.5]
         ],
-        []
+        [],
+        [],
+        0,
+        ""
     ],
     [
         "forward_observer",
@@ -144,29 +188,24 @@ OpsRoom_TrainingCourses = [
             ["spotDistance", 0.4],
             ["spotTime", 0.4]
         ],
-        ["reconnoitre"]
-    ],
-    [
-        "soe_fieldcraft",
-        "SOE Field Craft",
-        "Special Operations Executive training in stealth, infiltration, and elimination techniques. Qualifies agent for covert operations behind enemy lines.",
-        60,
-        [
-            ["general", 0.3],
-            ["courage", 0.4]
-        ],
-        ["infiltrate", "assassinate"]
+        ["reconnoitre"],
+        [],
+        0,
+        ""
     ],
     [
         "radio_operator",
         "Radio Operator Training",
-        "Signals and communications training. Qualifies unit to coordinate air strikes with ground attack aircraft using field radios.",
+        "Signals and communications training. Qualifies unit to coordinate air strikes and artillery fire missions using field radios.",
         45,
         [
             ["general", 0.2],
             ["commanding", 0.3]
         ],
-        ["airStrike"]
+        ["airStrike", "artillery"],
+        [],
+        0,
+        ""
     ],
     [
         "demolitions",
@@ -177,8 +216,29 @@ OpsRoom_TrainingCourses = [
             ["general", 0.2],
             ["courage", 0.3]
         ],
-        ["timebomb"]
+        ["timebomb"],
+        [],
+        0,
+        ""
     ],
+    [
+        "royal_engineers",
+        "Royal Engineers Training",
+        "Field engineering, fortification construction, and demolition. Qualifies unit to build defensive structures, lay minefields, and demolish player-built objects. Also grants Repair ability.",
+        60,
+        [
+            ["general", 0.2],
+            ["courage", 0.2]
+        ],
+        ["build", "repair"],
+        [],
+        0,
+        ""
+    ],
+
+    // ========================================
+    // AVIATION COURSES
+    // ========================================
     [
         "pilot_training",
         "Pilot Training",
@@ -190,7 +250,10 @@ OpsRoom_TrainingCourses = [
             ["courage", 0.3],
             ["general", 0.2]
         ],
-        ["pilot"]
+        ["pilot"],
+        [],
+        0,
+        ""
     ],
     [
         "paratrooper",
@@ -201,7 +264,10 @@ OpsRoom_TrainingCourses = [
             ["courage", 0.3],
             ["general", 0.2]
         ],
-        ["paratrooper"]
+        ["paratrooper"],
+        [],
+        0,
+        ""
     ],
     [
         "air_gunner",
@@ -214,18 +280,84 @@ OpsRoom_TrainingCourses = [
             ["spotDistance", 0.2],
             ["courage", 0.3]
         ],
-        ["airCrew"]
+        ["airCrew"],
+        [],
+        0,
+        ""
+    ],
+
+    // ========================================
+    // ELITE / SPECIAL FORCES COURSES
+    // ========================================
+    [
+        "commando_course",
+        "Commando Training",
+        "Achnacarry Castle commando course. Gruelling physical and tactical training including speed marches, cliff assault, boat work, and live-fire exercises. Only the most courageous soldiers are accepted. Requires Commando Training research.",
+        90,
+        [
+            ["aimingAccuracy", 0.2],
+            ["aimingSpeed", 0.2],
+            ["courage", 0.3],
+            ["general", 0.3],
+            ["spotDistance", 0.2],
+            ["reloadSpeed", 0.2]
+        ],
+        ["commando"],
+        [],        // No prereq qualifications needed
+        0.8,       // Courage must be >= 0.8
+        "commando_training"  // Requires Commando Training research
     ],
     [
-        "royal_engineers",
-        "Royal Engineers Training",
-        "Field engineering, fortification construction, and demolition. Qualifies unit to build defensive structures, lay minefields, and demolish player-built objects. Also grants Repair ability.",
+        "sas_selection",
+        "SAS Selection",
+        "Special Air Service selection and training. Extreme endurance, navigation, and combat survival in hostile terrain. Only soldiers who have completed Commando or Paratrooper training may apply. Requires maximum courage.",
+        120,
+        [
+            ["aimingAccuracy", 0.3],
+            ["aimingSpeed", 0.3],
+            ["aimingShake", 0.3],
+            ["spotDistance", 0.3],
+            ["spotTime", 0.3],
+            ["courage", 0.3],
+            ["general", 0.3],
+            ["reloadSpeed", 0.2]
+        ],
+        ["sas", "infiltrate", "reconnoitre"],
+        ["commando", "paratrooper"],  // Must have commando OR paratrooper
+        1.0,       // Courage must be 1.0 (maximum)
+        "ungentlemanly_warfare"  // Requires Ungentlemanly Warfare research
+    ],
+    [
+        "soe_training",
+        "SOE Training",
+        "Special Operations Executive agent training at Beaulieu. Tradecraft, sabotage, silent killing, clandestine communications, and resistance circuit management. Only soldiers who have completed Commando or Paratrooper training may apply.",
+        120,
+        [
+            ["general", 0.3],
+            ["courage", 0.4],
+            ["spotDistance", 0.3],
+            ["spotTime", 0.3]
+        ],
+        ["soe", "infiltrate", "assassinate", "timebomb"],
+        ["commando", "paratrooper"],  // Must have commando OR paratrooper
+        1.0,       // Courage must be 1.0 (maximum)
+        "ungentlemanly_warfare"  // Requires Ungentlemanly Warfare research
+    ],
+    [
+        "soe_fieldcraft",
+        "SOE Advanced Fieldcraft",
+        "Advanced SOE operational training. Deep cover techniques, agent recruitment, dead drops, and escape and evasion. For trained SOE agents only.",
         60,
         [
-            ["general", 0.2],
-            ["courage", 0.2]
+            ["general", 0.3],
+            ["courage", 0.2],
+            ["spotDistance", 0.2],
+            ["spotTime", 0.2]
         ],
-        ["build", "repair"]
+        ["reconnoitre"],
+        ["soe"],   // Must already be SOE qualified
+        0,
+        "ungentlemanly_warfare"
     ]
 ];
 

@@ -193,6 +193,31 @@ OpsRoom_AbilityConfig set ["airStrike", createHashMapFromArray [
     ["action", {call OpsRoom_fnc_ability_airStrike}]
 ]];
 
+// ==================== ARTILLERY ====================
+
+OpsRoom_AbilityConfig set ["artillery", createHashMapFromArray [
+    ["name", "Artillery"],
+    ["icon", "\A3\ui_f\data\IGUI\Cfg\SimpleTasks\types\destroy_ca.paa"],
+    ["tooltip", "Call in artillery fire mission (Radio Operator)"],
+    ["condition", {
+        params ["_units"];
+        _units findIf {
+            private _hasAbility = _x getVariable ["OpsRoom_Ability_Artillery", false];
+            if (_hasAbility) then {
+                private _available = [] call OpsRoom_fnc_artillery_getAvailable;
+                if (count _available > 0) then {
+                    true
+                } else {
+                    false
+                }
+            } else {
+                false
+            }
+        } != -1
+    }],
+    ["action", {call OpsRoom_fnc_ability_artillery}]
+]];
+
 // ==================== ENGINEERING ====================
 
 OpsRoom_AbilityConfig set ["build", createHashMapFromArray [

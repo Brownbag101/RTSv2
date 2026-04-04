@@ -63,9 +63,11 @@ private _velocity = [_vx, _vy, _vz];
     
     // Only do animation if unit is on foot
     if (vehicle _unit == _unit) then {
-        // Make unit face target
+        // Snap unit to face target instantly, then doWatch for tracking
+        private _dirToTarget = _unit getDir _targetPos;
+        _unit setDir _dirToTarget;
         _unit doWatch _targetPos;
-        sleep 0.3;
+        sleep 0.5;
         
         // Play grenade throw animation sequence
         _unit playMove "AwopPercMstpSgthWnonDnon_start";

@@ -1,11 +1,11 @@
 /*
     OpsRoom_fnc_enterGrenadeTargeting
     
-    Enters targeting mode with custom cursor and arc preview
-    - Shows crosshair (green if in range, red if too far)
-    - Draws throw arc preview starting AT GROUND LEVEL
-    - Waits for left click to throw
-    - ESC to cancel
+    Enters targeting mode with cursor-follow preview (matches build menu UX).
+    - Mouse cursor drives target position via screenToWorld(getMousePosition)
+    - Draw3D renders arc preview, range circle, and impact marker at cursor
+    - Green if in range, red if too far
+    - Left click to throw, ESC/RMB to cancel
     
     Params:
         _unit - Unit who will throw
@@ -25,18 +25,6 @@ OpsRoom_GrenadeTargeting_Active = true;
 OpsRoom_GrenadeTargeting_Unit = _unit;
 OpsRoom_GrenadeTargeting_Type = _grenadeType;
 
-// Create cursor overlay
-private _cursor = _display ctrlCreate ["RscPicture", -1];
-_cursor ctrlSetPosition [
-    safezoneX + (safezoneW * 0.5) - 0.02,
-    safezoneY + (safezoneH * 0.5) - 0.02,
-    0.04,
-    0.04
-];
-_cursor ctrlSetText "a3\ui_f\data\igui\cfg\cursors\attack_ca.paa";
-_cursor ctrlCommit 0;
-OpsRoom_GrenadeTargeting_CursorCtrl = _cursor;
-
 // Get grenade throw range (typical: 40m for HE, 50m for smoke)
 private _maxRange = 40;
 if (_grenadeType in ["SmokeShell", "SmokeShellRed", "SmokeShellGreen", "SmokeShellYellow", 
@@ -44,26 +32,25 @@ if (_grenadeType in ["SmokeShell", "SmokeShellRed", "SmokeShellGreen", "SmokeShe
     _maxRange = 50;
 };
 
-// Add per-frame handler for cursor updates and arc drawing
-OpsRoom_GrenadeTargeting_FrameHandler = addMissionEventHandler ["EachFrame", {
+// Draw3D handler — cursor-follow targeting with arc preview
+OpsRoom_GrenadeTargeting_DrawEH = addMissionEventHandler ["Draw3D", {
+    if !(OpsRoom_GrenadeTargeting_Active isEqualTo true) exitWith {
+        removeMissionEventHandler ["Draw3D", _thisEventHandler];
+    };
+    
     private _unit = OpsRoom_GrenadeTargeting_Unit;
-    private _cursor = OpsRoom_GrenadeTargeting_CursorCtrl;
+    if (isNull _unit) exitWith {};
     
-    if (isNull _unit || isNull _cursor) exitWith {};
+    // Get cursor world position from mouse
+    private _mousePos = getMousePosition;
+    private _cursorPos = screenToWorld _mousePos;
+    _cursorPos set [2, 0];
     
-    // Get cursor world position
-    private _cursorPos = screenToWorld [0.5, 0.5];
-    
-    // Get unit's X/Y position
+    // Unit ground position
     private _unitPosATL = getPosATL _unit;
-    private _unitX = _unitPosATL select 0;
-    private _unitY = _unitPosATL select 1;
+    private _unitPos = [_unitPosATL select 0, _unitPosATL select 1, 0];
     
-    // For VR map specifically, just use Z=0 (actual ground level visually)
-    // This works because VR terrain is at 2m ASL but we want visual ground (0 ASL)
-    private _unitPos = [_unitX, _unitY, 0];
-    
-    // Calculate distance
+    // Calculate distance and range check
     private _distance = _unit distance2D _cursorPos;
     private _maxRange = 40;
     private _grenadeType = OpsRoom_GrenadeTargeting_Type;
@@ -73,26 +60,40 @@ OpsRoom_GrenadeTargeting_FrameHandler = addMissionEventHandler ["EachFrame", {
         _maxRange = 50;
     };
     
-    // Update cursor color
-    if (_distance <= _maxRange) then {
-        _cursor ctrlSetTextColor [0, 1, 0, 1]; // Green
-    } else {
-        _cursor ctrlSetTextColor [1, 0, 0, 1]; // Red
+    private _inRange = _distance <= _maxRange;
+    private _color = if (_inRange) then {[0, 1, 0, 0.8]} else {[1, 0, 0, 0.8]};
+    
+    // Draw targeting circle at cursor position
+    private _pulse = 0.5 + (sin(time * 300) * 0.3);
+    private _circleColor = if (_inRange) then {[0, 1, 0, _pulse]} else {[1, 0, 0, _pulse]};
+    private _segments = 24;
+    private _circleRadius = 2;
+    for "_s" from 0 to (_segments - 1) do {
+        private _a1 = (_s / _segments) * 360;
+        private _a2 = ((_s + 1) / _segments) * 360;
+        private _p1 = _cursorPos vectorAdd [_circleRadius * sin _a1, _circleRadius * cos _a1, 0.1];
+        private _p2 = _cursorPos vectorAdd [_circleRadius * sin _a2, _circleRadius * cos _a2, 0.1];
+        drawLine3D [_p1, _p2, _circleColor];
     };
     
-    // Draw throw arc
-    private _arc = [_unitPos, _cursorPos, _distance <= _maxRange] call OpsRoom_fnc_calculateGrenadeArc;
+    // Draw label above cursor
+    private _rangeText = if (_inRange) then {
+        format ["GRENADE — %.0fm — CLICK to throw", _distance]
+    } else {
+        format ["TOO FAR — %.0fm / %.0fm", _distance, _maxRange]
+    };
+    drawIcon3D ["", _color, _cursorPos vectorAdd [0,0,3], 0, 0, 0,
+        _rangeText, 2, 0.04, "PuristaMedium", "center", true];
+    drawIcon3D ["", [1,1,1,0.5], _cursorPos vectorAdd [0,0,2.3], 0, 0, 0,
+        "RMB / ESC to cancel", 2, 0.03, "PuristaMedium", "center", true];
     
-    // Draw arc lines
+    // Draw throw arc
+    private _arc = [_unitPos, _cursorPos, _inRange] call OpsRoom_fnc_calculateGrenadeArc;
+    
     for "_i" from 0 to (count _arc - 2) do {
         private _p1 = _arc select _i;
         private _p2 = _arc select (_i + 1);
-        
-        if (_distance <= _maxRange) then {
-            drawLine3D [_p1, _p2, [0, 1, 0, 0.8]]; // Green line
-        } else {
-            drawLine3D [_p1, _p2, [1, 0, 0, 0.8]]; // Red line
-        };
+        drawLine3D [_p1, _p2, _color];
     };
     
     // Draw impact marker
@@ -100,23 +101,23 @@ OpsRoom_GrenadeTargeting_FrameHandler = addMissionEventHandler ["EachFrame", {
         private _impactPos = _arc select (count _arc - 1);
         drawIcon3D [
             "a3\ui_f\data\map\markers\military\destroy_ca.paa",
-            if (_distance <= _maxRange) then {[0, 1, 0, 0.8]} else {[1, 0, 0, 0.8]},
+            _color,
             _impactPos,
-            1,
-            1,
-            0,
-            "",
-            0,
-            0.03,
-            "PuristaMedium",
-            "center"
+            1, 1, 0, "", 0, 0.03, "PuristaMedium", "center"
         ];
     };
 }];
 
-// Add mouse click handler
+// Mouse click handler
 OpsRoom_GrenadeTargeting_ClickHandler = _display displayAddEventHandler ["MouseButtonDown", {
     params ["_display", "_button", "_xPos", "_yPos", "_shift", "_ctrl", "_alt"];
+    
+    // Right click = cancel
+    if (_button == 1) exitWith {
+        call OpsRoom_fnc_cancelGrenadeTargeting;
+        hint "Grenade targeting cancelled";
+        true
+    };
     
     // Only respond to left click
     if (_button != 0) exitWith {};
@@ -126,8 +127,8 @@ OpsRoom_GrenadeTargeting_ClickHandler = _display displayAddEventHandler ["MouseB
     
     if (isNull _unit) exitWith {};
     
-    // Get target position
-    private _targetPos = screenToWorld [0.5, 0.5];
+    // Get target position from mouse cursor
+    private _targetPos = screenToWorld (getMousePosition);
     
     // Check range
     private _distance = _unit distance2D _targetPos;
@@ -151,19 +152,18 @@ OpsRoom_GrenadeTargeting_ClickHandler = _display displayAddEventHandler ["MouseB
     true // Consume the click
 }];
 
-// Add ESC handler to cancel
+// ESC key handler to cancel
 OpsRoom_GrenadeTargeting_ESCHandler = _display displayAddEventHandler ["KeyDown", {
-    params ["_display", "_key", "_shift", "_ctrl", "_alt"];
+    params ["_display", "_key"];
     
-    // ESC key = 1
     if (_key == 1) then {
         call OpsRoom_fnc_cancelGrenadeTargeting;
         hint "Grenade targeting cancelled";
-        true // Consume the key
+        true
     } else {
         false
     };
 }];
 
-systemChat "Grenade targeting mode active - Click to throw, ESC to cancel";
-diag_log format ["[OpsRoom] Entered grenade targeting mode: %1", _grenadeType];
+systemChat "Grenade targeting — move mouse to aim, LEFT CLICK to throw, RIGHT CLICK / ESC to cancel";
+diag_log format ["[OpsRoom] Entered grenade targeting mode (cursor-follow): %1", _grenadeType];

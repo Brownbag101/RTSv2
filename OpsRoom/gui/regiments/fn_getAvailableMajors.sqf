@@ -7,13 +7,22 @@
     - Are not already commanding a group (group CO)
     - Are alive
     - Are Zeus-editable
+    - (Optional) Have a specific qualification
+    
+    Parameters:
+        0: STRING - (Optional) Required qualification. "" = no filter.
     
     Returns:
         Array of unit objects
     
     Usage:
         private _majors = [] call OpsRoom_fnc_getAvailableMajors;
+        private _commandoMajors = ["commando"] call OpsRoom_fnc_getAvailableMajors;
 */
+
+params [
+    ["_requiredQual", "", [""]]
+];
 
 private _availableMajors = [];
 
@@ -60,13 +69,21 @@ private _assignedGroupCOs = [];
             if !(_unit in _assignedGroupCOs) then {
                 // Check alive
                 if (alive _unit) then {
-                    _availableMajors pushBack _unit;
+                    // Check qualification requirement
+                    if (_requiredQual != "") then {
+                        private _quals = _unit getVariable ["OpsRoom_Qualifications", []];
+                        if (_requiredQual in _quals) then {
+                            _availableMajors pushBack _unit;
+                        };
+                    } else {
+                        _availableMajors pushBack _unit;
+                    };
                 };
             };
         };
     };
 } forEach _allUnits;
 
-diag_log format ["[OpsRoom] Found %1 available Majors (rank >= Major, not Regiment CO, not Group CO)", count _availableMajors];
+diag_log format ["[OpsRoom] Found %1 available Majors (rank >= Major, qual filter: '%2')", count _availableMajors, _requiredQual];
 
 _availableMajors

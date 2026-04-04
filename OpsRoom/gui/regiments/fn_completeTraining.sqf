@@ -131,9 +131,176 @@ if (isNull _unit) exitWith {};
             
             diag_log format ["[OpsRoom] Granted Paratrooper qualification: %1", name _unit];
         };
+        case "commando": {
+            // Store qualification
+            private _quals2 = _unit getVariable ["OpsRoom_Qualifications", []];
+            if !("commando" in _quals2) then { _quals2 pushBack "commando" };
+            _unit setVariable ["OpsRoom_Qualifications", _quals2, true];
+            
+            // Apply Commando loadout after training completes
+            [_unit] spawn {
+                params ["_u"];
+                sleep 1;
+                
+                private _savedName = name _u;
+                
+                // Strip existing gear
+                removeAllWeapons _u;
+                removeAllItems _u;
+                removeAllAssignedItems _u;
+                removeUniform _u;
+                removeVest _u;
+                removeBackpack _u;
+                removeHeadgear _u;
+                removeGoggles _u;
+                
+                // Commando uniform
+                _u forceAddUniform "fow_u_uk_bd40_commando_01_private";
+                _u addVest "fow_v_uk_base_green";
+                _u addBackpack "fow_b_uk_bergenpack_rifleman";
+                
+                // Commando weapon: Lee Enfield
+                _u addWeapon "fow_w_leeenfield_no4mk1";
+                _u addPrimaryWeaponItem "fow_10Rnd_303";
+                
+                _u addItemToUniform "FirstAidKit";
+                for "_i" from 1 to 2 do {_u addItemToUniform "fow_e_no36mk1";};
+                for "_i" from 1 to 4 do {_u addItemToUniform "fow_10Rnd_303";};
+                for "_i" from 1 to 6 do {_u addItemToVest "fow_10Rnd_303";};
+                for "_i" from 1 to 8 do {_u addItemToBackpack "fow_10Rnd_303";};
+                for "_i" from 1 to 2 do {_u addItemToBackpack "fow_30Rnd_303_bren";};
+                for "_i" from 1 to 2 do {_u addItemToBackpack "fow_e_no36mk1";};
+                
+                // Commando green beret
+                _u addHeadgear "fow_h_uk_beret_commando";
+                
+                _u linkItem "ItemMap";
+                _u linkItem "ItemCompass";
+                _u linkItem "ItemWatch";
+                _u linkItem "ItemRadio";
+                
+                sleep 0.5;
+                _u setName _savedName;
+                
+                ["FLASH", format ["%1 qualified as Commando", _savedName],
+                    format ["%1 has completed Commando training at Achnacarry and earned the green beret.", _savedName]
+                ] call OpsRoom_fnc_dispatch;
+                
+                diag_log format ["[OpsRoom] Commando %1 kitted out", _savedName];
+            };
+            
+            diag_log format ["[OpsRoom] Granted Commando qualification: %1", name _unit];
+        };
+        case "sas": {
+            // Store qualification
+            private _quals2 = _unit getVariable ["OpsRoom_Qualifications", []];
+            if !("sas" in _quals2) then { _quals2 pushBack "sas" };
+            _unit setVariable ["OpsRoom_Qualifications", _quals2, true];
+            
+            // Apply SAS loadout
+            [_unit] spawn {
+                params ["_u"];
+                sleep 1;
+                
+                private _savedName = name _u;
+                
+                removeAllWeapons _u;
+                removeAllItems _u;
+                removeAllAssignedItems _u;
+                removeUniform _u;
+                removeVest _u;
+                removeBackpack _u;
+                removeHeadgear _u;
+                removeGoggles _u;
+                
+                // SAS uniform
+                _u forceAddUniform "JMSSA_brit_NAs_sas_lt_F_CombatUniform";
+                _u addVest "JMSSA_brit_p37crew";
+                
+                // SAS weapons: Thompson + Webley
+                _u addWeapon "JMSSA_thompson1928_Rifle";
+                _u addPrimaryWeaponItem "JMSSA_50Rnd_45ACP";
+                _u addWeapon "JMSSA_webleyVI_pistol";
+                _u addHandgunItem "JMSSA_6Rnd_455";
+                
+                _u addItemToUniform "FirstAidKit";
+                for "_i" from 1 to 3 do {_u addItemToUniform "JMSSA_50Rnd_45ACP";};
+                for "_i" from 1 to 2 do {_u addItemToVest "JMSSA_50Rnd_45ACP";};
+                _u addItemToVest "JMSSA_6Rnd_455";
+                
+                // SAS sand beret
+                _u addHeadgear "fow_h_uk_beret_sas_2";
+                
+                _u linkItem "ItemMap";
+                _u linkItem "ItemCompass";
+                _u linkItem "ItemWatch";
+                _u linkItem "ItemRadio";
+                
+                sleep 0.5;
+                _u setName _savedName;
+                
+                ["FLASH", format ["%1 selected for SAS", _savedName],
+                    format ["%1 has passed SAS selection and is now an SAS operative.", _savedName]
+                ] call OpsRoom_fnc_dispatch;
+                
+                diag_log format ["[OpsRoom] SAS %1 kitted out", _savedName];
+            };
+            
+            diag_log format ["[OpsRoom] Granted SAS qualification: %1", name _unit];
+        };
+        case "soe": {
+            // Store qualification
+            private _quals2 = _unit getVariable ["OpsRoom_Qualifications", []];
+            if !("soe" in _quals2) then { _quals2 pushBack "soe" };
+            _unit setVariable ["OpsRoom_Qualifications", _quals2, true];
+            
+            // Apply SOE loadout (civilian/covert)
+            [_unit] spawn {
+                params ["_u"];
+                sleep 1;
+                
+                private _savedName = name _u;
+                
+                removeAllWeapons _u;
+                removeAllItems _u;
+                removeAllAssignedItems _u;
+                removeUniform _u;
+                removeVest _u;
+                removeBackpack _u;
+                removeHeadgear _u;
+                removeGoggles _u;
+                
+                // SOE civilian cover clothing
+                _u forceAddUniform "JMSSA_civ_ita1_black_F_CombatUniform";
+                
+                _u addItemToUniform "FirstAidKit";
+                
+                _u addHeadgear "JMSSA_civ_ascotCap_blackCh";
+                
+                _u linkItem "ItemMap";
+                _u linkItem "ItemCompass";
+                _u linkItem "ItemWatch";
+                _u linkItem "ItemRadio";
+                
+                sleep 0.5;
+                _u setName _savedName;
+                
+                ["SOE", format ["%1 trained as SOE agent", _savedName],
+                    format ["%1 has completed SOE training at Beaulieu and is ready for deployment behind enemy lines.", _savedName]
+                ] call OpsRoom_fnc_dispatch;
+                
+                diag_log format ["[OpsRoom] SOE Agent %1 kitted out", _savedName];
+            };
+            
+            diag_log format ["[OpsRoom] Granted SOE qualification: %1", name _unit];
+        };
         case "airStrike": {
             _unit setVariable ["OpsRoom_Ability_AirStrike", true, true];
             diag_log format ["[OpsRoom] Granted Air Strike ability: %1", name _unit];
+        };
+        case "artillery": {
+            _unit setVariable ["OpsRoom_Ability_Artillery", true, true];
+            diag_log format ["[OpsRoom] Granted Artillery ability: %1", name _unit];
         };
         case "build": {
             _unit setVariable ["OpsRoom_Ability_Build", true, true];

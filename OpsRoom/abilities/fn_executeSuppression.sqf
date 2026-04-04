@@ -19,6 +19,11 @@ hint format ["%1 unit(s) suppressing target for %2", count _units, _durationText
 {
     private _unit = _x;
     
+    // Face the target before going prone
+    private _dirToTarget = _unit getDir _targetPos;
+    _unit setDir _dirToTarget;
+    _unit doWatch _targetPos;
+    
     // Make unit go prone
     _unit setUnitPos "DOWN";
     

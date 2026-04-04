@@ -1,23 +1,25 @@
 /*
     Create New Regiment
     
-    Creates a new regiment with the specified name and commanding officer.
+    Creates a new regiment with the specified name, type, and commanding officer.
     The CO becomes the only member of the new regiment initially.
     
     Parameters:
         0: STRING - Regiment name
         1: OBJECT - Commanding Officer (Major)
+        2: STRING - Regiment type ("regular", "pioneer", "armoured", "commando", "airborne", "soe", "sas")
     
     Returns:
         STRING - New regiment ID
     
     Usage:
-        private _regimentId = ["The Yorkshire Regiment", majorSmith] call OpsRoom_fnc_createRegiment;
+        private _regimentId = ["The Yorkshire Regiment", majorSmith, "regular"] call OpsRoom_fnc_createRegiment;
 */
 
 params [
     ["_name", "", [""]],
-    ["_commandingOfficer", objNull, [objNull]]
+    ["_commandingOfficer", objNull, [objNull]],
+    ["_regimentType", "regular", [""]]
 ];
 
 if (_name == "") exitWith {
@@ -41,6 +43,7 @@ OpsRoom_NextGroupID = OpsRoom_NextGroupID + 1;
 private _regimentData = createHashMapFromArray [
     ["id", _regimentId],
     ["name", _name],
+    ["type", _regimentType],
     ["commandingOfficer", _commandingOfficer],
     ["groups", [_groupId]],
     ["dateFormed", date],
@@ -106,8 +109,13 @@ if (!isNull _commandingOfficer) then {
     diag_log format ["[OpsRoom] Renamed new ARMA group to: %1", _groupName];
 };
 
+// STEP 4: Apply type-specific loadout to founding CO
+if (!isNull _commandingOfficer) then {
+    [_commandingOfficer, _regimentType] call OpsRoom_fnc_applyRegimentLoadout;
+};
+
 // Debug output
-diag_log format ["[OpsRoom] Created regiment: %1 (ID: %2)", _name, _regimentId];
+diag_log format ["[OpsRoom] Created regiment: %1 (ID: %2) type: %3", _name, _regimentId, _regimentType];
 diag_log format ["[OpsRoom] Regiment CO: %1", name _commandingOfficer];
 diag_log format ["[OpsRoom] Initial group: %1 (ID: %2) with 1 unit", _groupName, _groupId];
 

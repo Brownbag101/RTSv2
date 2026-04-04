@@ -133,6 +133,16 @@ OpsRoom_RecruitPool deleteAt _index;
 uiNamespace setVariable ["OpsRoom_PendingRecruit", nil];
 uiNamespace setVariable ["OpsRoom_PendingRecruitIndex", nil];
 
+// Apply regiment type loadout if applicable (pioneer, armoured)
+private _regimentId = _groupData get "regimentId";
+private _regimentData = OpsRoom_Regiments getOrDefault [_regimentId, createHashMap];
+if (count _regimentData > 0) then {
+    private _regType = _regimentData getOrDefault ["type", "regular"];
+    if (_regType in ["pioneer", "armoured"]) then {
+        [_unit, _regType] call OpsRoom_fnc_applyRegimentLoadout;
+    };
+};
+
 // Feedback
 private _groupName = _groupData get "name";
 ["ROUTINE", "RECRUIT ENLISTED", format ["%1 enlisted and assigned to %2", _recruit get "name", _groupName], nil, _unit] call OpsRoom_fnc_dispatch;

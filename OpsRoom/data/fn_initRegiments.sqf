@@ -23,6 +23,76 @@ OpsRoom_Groups = createHashMap;
 OpsRoom_NextRegimentID = 1;
 OpsRoom_NextGroupID = 1;
 
+// ========================================
+// REGIMENT TYPES
+// ========================================
+// Each type defines display info, research gates, and qualification requirements.
+// "requiresResearch" = research item ID that must be completed ("" = none)
+// "requiresQualification" = qualification the Major must have to command this type ("" = none)
+// "unitQualification" = qualification units need to join this regiment type ("" = none)
+// "namePool" = global variable name containing the name array for this type
+
+OpsRoom_RegimentTypes = createHashMapFromArray [
+    ["regular", createHashMapFromArray [
+        ["displayName", "Infantry Regiment"],
+        ["description", "Standard line infantry regiment. The backbone of the British Army."],
+        ["requiresResearch", ""],
+        ["requiresQualification", ""],
+        ["unitQualification", ""],
+        ["namePool", "OpsRoom_AvailableRegimentNames"]
+    ]],
+    ["pioneer", createHashMapFromArray [
+        ["displayName", "Pioneer / Service Corps"],
+        ["description", "Engineering and logistics units. Supply, construction, and support."],
+        ["requiresResearch", ""],
+        ["requiresQualification", ""],
+        ["unitQualification", ""],
+        ["namePool", "OpsRoom_PioneerRegimentNames"]
+    ]],
+    ["armoured", createHashMapFromArray [
+        ["displayName", "Armoured Regiment"],
+        ["description", "Tank and mechanised cavalry units."],
+        ["requiresResearch", ""],
+        ["requiresQualification", ""],
+        ["unitQualification", ""],
+        ["namePool", "OpsRoom_ArmouredRegimentNames"]
+    ]],
+    ["commando", createHashMapFromArray [
+        ["displayName", "Commando Unit"],
+        ["description", "Elite raiding forces. Requires Commando Training research and a commando-qualified Major."],
+        ["requiresResearch", "commando_training"],
+        ["requiresQualification", "commando"],
+        ["unitQualification", "commando"],
+        ["namePool", "OpsRoom_CommandoRegimentNames"]
+    ]],
+    ["airborne", createHashMapFromArray [
+        ["displayName", "Airborne / Parachute"],
+        ["description", "Parachute-qualified airborne forces. Requires a para-qualified Major."],
+        ["requiresResearch", ""],
+        ["requiresQualification", "paratrooper"],
+        ["unitQualification", "paratrooper"],
+        ["namePool", "OpsRoom_AirborneRegimentNames"]
+    ]],
+    ["soe", createHashMapFromArray [
+        ["displayName", "SOE Circuit"],
+        ["description", "Special Operations Executive. Covert agents behind enemy lines. Requires Ungentlemanly Warfare research."],
+        ["requiresResearch", "ungentlemanly_warfare"],
+        ["requiresQualification", "soe"],
+        ["unitQualification", "soe"],
+        ["namePool", "OpsRoom_SOERegimentNames"]
+    ]],
+    ["sas", createHashMapFromArray [
+        ["displayName", "SAS Detachment"],
+        ["description", "Special Air Service. Long-range desert raiding and sabotage. Requires Ungentlemanly Warfare research."],
+        ["requiresResearch", "ungentlemanly_warfare"],
+        ["requiresQualification", "sas"],
+        ["unitQualification", "sas"],
+        ["namePool", "OpsRoom_SASRegimentNames"]
+    ]]
+];
+
+diag_log format ["[OpsRoom] Regiment types initialized: %1 types", count OpsRoom_RegimentTypes];
+
 // Get starting units - ONLY if explicitly defined
 private _startingUnits = [];
 if (!isNil "OpsRoom_StartingUnits") then {
@@ -63,6 +133,7 @@ if (count _startingUnits > 0) then {
     private _regimentData = createHashMapFromArray [
         ["id", _regimentId],
         ["name", "The Essex Regiment"],
+        ["type", "regular"],
         ["commandingOfficer", _commandingOfficer],
         ["groups", [_groupId]],
         ["dateFormed", date],

@@ -898,6 +898,56 @@ OpsRoom_EquipmentDB set ["sigint_strategic_deception", createHashMapFromArray [
 ]];
 
 // ============================================================
+// SPECIAL TRAINING & DOCTRINE
+// ============================================================
+
+// Commando Training - gates commando regiment type and commando training course
+OpsRoom_EquipmentDB set ["commando_training", createHashMapFromArray [
+    ["displayName", "Commando Training Programme"],
+    ["category", "Doctrine"],
+    ["subcategory", "Special Forces"],
+    ["researchCost", 150],
+    ["researchTime", 10],
+    ["researchDesc", "Establish the Commando Training Centre at Achnacarry Castle. Enables Commando training courses and the formation of Commando units."],
+    ["researchPrereqs", []],
+    ["className", ""],
+    ["icon", ""],
+    
+    ["buildable", false],
+    ["buildTime", 0],
+    ["buildCost", []],
+    ["batchSize", 0],
+    ["buildDesc", ""],
+    
+    ["supplyDesc", ""],
+    ["spawnType", "none"],
+    ["crateClass", ""]
+]];
+
+// Ungentlemanly Warfare - gates SOE and SAS regiment types and training courses
+OpsRoom_EquipmentDB set ["ungentlemanly_warfare", createHashMapFromArray [
+    ["displayName", "Ungentlemanly Warfare"],
+    ["category", "Doctrine"],
+    ["subcategory", "Special Forces"],
+    ["researchCost", 250],
+    ["researchTime", 15],
+    ["researchDesc", "Authorise the Special Operations Executive and Special Air Service programmes. Churchill's 'Ministry of Ungentlemanly Warfare' enables the formation of SOE circuits and SAS detachments for covert operations, sabotage, and deep raids behind enemy lines."],
+    ["researchPrereqs", ["commando_training"]],
+    ["className", ""],
+    ["icon", ""],
+    
+    ["buildable", false],
+    ["buildTime", 0],
+    ["buildCost", []],
+    ["batchSize", 0],
+    ["buildDesc", ""],
+    
+    ["supplyDesc", ""],
+    ["spawnType", "none"],
+    ["crateClass", ""]
+]];
+
+// ============================================================
 // HELPER FUNCTIONS
 // ============================================================
 

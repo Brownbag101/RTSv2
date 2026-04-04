@@ -21,12 +21,33 @@ for "_idc" from 9100 to 12111 do {
     };
 };
 
-// Get available Majors
-private _availableMajors = [] call OpsRoom_fnc_getAvailableMajors;
+// Get required qualification from selected regiment type (if any)
+private _requiredQual = "";
+private _selectedType = uiNamespace getVariable ["OpsRoom_SelectedRegimentType", ""];
+if (_selectedType != "") then {
+    private _typeData = OpsRoom_RegimentTypes getOrDefault [_selectedType, createHashMap];
+    if (count _typeData > 0) then {
+        _requiredQual = _typeData getOrDefault ["requiresQualification", ""];
+    };
+};
+
+// Get available Majors (filtered by qualification if needed)
+private _availableMajors = [_requiredQual] call OpsRoom_fnc_getAvailableMajors;
 
 if (count _availableMajors == 0) exitWith {
-    hint "No available Majors! Promote a unit to Major first.";
+    private _hintMsg = if (_requiredQual != "") then {
+        format ["No available Majors with '%1' qualification!\nTrain a Major through the required course first.", _requiredQual]
+    } else {
+        "No available Majors! Promote a unit to Major first."
+    };
+    hint _hintMsg;
     closeDialog 0;
+    // Return to type picker
+    [] spawn {
+        sleep 0.1;
+        uiNamespace setVariable ["OpsRoom_SelectedRegimentType", nil];
+        [] call OpsRoom_fnc_showAddRegiment;
+    };
 };
 
 private _squareIndex = 0;
